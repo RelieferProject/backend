@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum roleEnum {
+  ADMIN
+  USER
+  CAMPAIGNER
+}
+
+model User {
+  address    String    @id
+  name       String
+  email      String    @unique
+  student_id String?   @unique
+  faculty    String?   @default("IT")
+  isVerified Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  role       roleEnum  @default(USER)
+}
+
+model Campaign {
+  id                Int       @id @default(autoincrement())
+  name              String
+  description       String
+  picture           Picture[]
+  startTime         DateTime
+  endTime           DateTime
+  durationToEarn    Int
+  rewardTokenAmount Int
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+}
+
+model Picture {
+  id         Int       @id @default(autoincrement())
+  name       String
+  url        String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  campaign   Campaign  @relation(fields: [campaignId], references: [id])
+  campaignId Int
+}
