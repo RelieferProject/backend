@@ -18,8 +18,8 @@ enum roleEnum {
 
 model User {
   address    String    @id
-  name       String
-  email      String    @unique
+  name       String?
+  email      String?    @unique
   student_id String?   @unique
   faculty    String?   @default("IT")
   isVerified Boolean   @default(false)
