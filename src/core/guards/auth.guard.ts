@@ -1,6 +1,11 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
 import { roleEnum } from '@prisma/client';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import Web3Token from 'web3-token';
@@ -29,12 +34,14 @@ export class AuthGuard implements CanActivate {
       roles = [roleEnum.USER, roleEnum.ADMIN, roleEnum.CAMPAIGNER];
     }
 
+    // console.log(roles);
+
     const request = context.switchToHttp().getRequest();
 
     const token = request?.headers?.authorization?.split('Bearer ')[1];
 
     if (!token) {
-      return false;
+      throw new HttpException('Invalid Token', HttpStatus.UNAUTHORIZED);
     }
 
     const { address } = Web3Token.verify(token);
@@ -46,15 +53,17 @@ export class AuthGuard implements CanActivate {
     });
 
     if (!user) {
-      return false;
+      throw new HttpException('not have user', HttpStatus.UNAUTHORIZED);
     }
 
-    if (!user.isVerified) {
-      return false;
-    }
+    // if (!user.isVerified) {
+    //   throw new HttpException('user is not verified', HttpStatus.UNAUTHORIZED);
+    //   // return false;
+    // }
 
     if (!roles.includes(user.role)) {
-      return false;
+      throw new HttpException('not have permission', HttpStatus.UNAUTHORIZED);
+      // return false;
     }
 
     request.user = user;

@@ -3,6 +3,8 @@ import { User, userType } from '../decorators/user.decolator';
 import { LoginDto } from '../dtos/auth.dtos';
 import { AuthGuard } from '../guards/auth.guard';
 import { AuthServices } from '../services/auth.service';
+import { Roles } from 'src/shared/decorators/role.decorator';
+import { VerifyGuard, isVerified } from '../guards/verify.guard';
 
 @Controller('/api/auth')
 export class AuthControllers {
@@ -13,7 +15,9 @@ export class AuthControllers {
     return this.authService.login(body.token);
   }
 
-  @UseGuards(AuthGuard)
+  // @Roles('USER', 'ADMIN')
+  @UseGuards(AuthGuard, VerifyGuard)
+  // @isVerified(true)
   @Get('profile')
   profile(@User() user: userType) {
     return this.authService.profile(user);

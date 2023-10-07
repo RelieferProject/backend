@@ -16,6 +16,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const status = exception ? exception.getStatus() : 500;
 
+    console.log(exception.getResponse());
+
     response.status(status).json({
       isSuccess: status == 200,
       statusCode: status,
