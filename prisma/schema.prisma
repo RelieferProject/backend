@@ -23,14 +23,18 @@ model User {
   student_id String?   @unique
   faculty    String?   @default("IT")
   isVerified Boolean   @default(false)
+  isSendVerify Boolean @default(false)
+  isClaimed  Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
   role       roleEnum  @default(USER)
+  campaigns  UserOnCampaign[]
 }
 
 model Campaign {
   id                Int       @id @default(autoincrement())
+  address           String
   name              String
   description       String
   picture           Picture[]
@@ -41,6 +45,9 @@ model Campaign {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
+  users             UserOnCampaign[]
+  //index address to query
+  @@index([address])
 }
 
 model Picture {
@@ -52,4 +59,17 @@ model Picture {
   deletedAt  DateTime?
   campaign   Campaign  @relation(fields: [campaignId], references: [id])
   campaignId Int
+}
+
+model UserOnCampaign{
+  id          Int       @id @default(autoincrement())
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  user        User      @relation(fields: [userAddress], references: [address])
+  campaignId  Int
+  userAddress String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  @@index([campaignId])
+  @@index([userAddress])
 }

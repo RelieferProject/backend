@@ -6,6 +6,7 @@ import { ValidationException } from './shared/exceptions/validation.exception';
 import { ResponseTransform } from './shared/interceptors/response-transform.interceptor';
 import {
   HttpExceptionFilter,
+  NotFoundExceptionFilter,
   ValidationFilter,
 } from './shared/filters/http-exception.filter';
 import { PrismaClientExceptionFilter } from './shared/exceptions/prisma-client.exception.filter';
@@ -18,6 +19,7 @@ async function bootstrap() {
 
   // apply transform to all responses
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new NotFoundExceptionFilter());
   app.useGlobalFilters(new ValidationFilter());
   app.useGlobalInterceptors(new ResponseTransform());
 

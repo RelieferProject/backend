@@ -3,6 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ValidationException } from '../exceptions/validation.exception';
 import { Request, Response } from 'express';
@@ -22,6 +23,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
       isSuccess: status == 200,
       statusCode: status,
       message: exception.getResponse(),
+    });
+  }
+}
+
+@Catch(NotFoundException)
+export class NotFoundExceptionFilter implements ExceptionFilter {
+  catch(exception: NotFoundException, host: ArgumentsHost): any {
+    const context = host.switchToHttp();
+    const request = context.getRequest();
+    const response = context.getResponse();
+
+    return response.status(404).json({
+      isSuccess: false,
+      statusCode: 404,
+      message: 'Not found',
     });
   }
 }

@@ -40,6 +40,8 @@ export class AuthGuard implements CanActivate {
 
     const token = request?.headers?.authorization?.split('Bearer ')[1];
 
+    // console.log(token);
+
     if (!token) {
       throw new HttpException('Invalid Token', HttpStatus.UNAUTHORIZED);
     }

@@ -7,6 +7,9 @@ import { ImageControllers } from './controllers/image.controller';
 import { UserControllers } from './controllers/user.controller';
 import { UserInterceptor } from './interceptors/user.interceptor';
 import { AuthServices } from './services/auth.service';
+import { UserServices } from './services/user.service';
+import { ImageServices } from './services/image.service';
+import { CampaignServices } from './services/campaign.service';
 
 @Module({
   imports: [ShareModule],
@@ -18,6 +21,9 @@ import { AuthServices } from './services/auth.service';
   ],
   providers: [
     AuthServices,
+    UserServices,
+    ImageServices,
+    CampaignServices,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: UserInterceptor,
