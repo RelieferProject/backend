@@ -11,14 +11,15 @@ COPY . .
 
 # RUN apk add --no-cache git
 
-# RUN npm install -g @nestjs/cli@9.0.0
+RUN npm install -g @nestjs/cli@9.0.0
 
-# RUN npm i @types/node
+RUN npm i @types/node
 
 RUN yarn install
 
+RUN yarn prisma generate
+
 RUN yarn build
 
-RUN yarn prisma generate
 
 CMD ["node", "dist/main"]
