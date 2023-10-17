@@ -9,11 +9,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN apk add --no-cache git
+# RUN apk add --no-cache git
 
-RUN npm install -g @nestjs/cli@9.0.0
+# RUN npm install -g @nestjs/cli@9.0.0
 
-RUN npm i @types/node
+# RUN npm i @types/node
 
 RUN yarn install
 
