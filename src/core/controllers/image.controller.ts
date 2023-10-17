@@ -19,7 +19,7 @@ export class ImageControllers {
   @Post('upload')
   @UseGuards(AuthGuard, VerifyGuard)
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file) {
     return this.imageServices.uploadImage(file.buffer);
   }
 }
