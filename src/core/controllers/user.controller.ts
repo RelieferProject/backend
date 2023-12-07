@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard';
 import { VerifyGuard, isVerified } from '../guards/verify.guard';
 import { UserServices } from '../services/user.service';
@@ -37,5 +37,12 @@ export class UserControllers {
   @Post('validate')
   validation(@User() user: userType, @Body() data: { address: string }) {
     return this.userServices.validate(data.address);
+  }
+
+  @UseGuards(AuthGuard, VerifyGuard)
+  @Roles('ADMIN')
+  @Get(':address')
+  findByAddress(@User() user: userType, @Param() { address }: any) {
+    return this.userServices.findByAddress(address);
   }
 }

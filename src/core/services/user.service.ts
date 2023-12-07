@@ -89,6 +89,18 @@ export class UserServices {
     return this.prismaService.user.findMany();
   }
 
+  async findByAddress(address: string) {
+    const userFind = await this.prismaService.user.findUnique({
+      where: { address: address.toLowerCase() },
+    });
+
+    if (!userFind) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return userFind;
+  }
+
   async validate(address: string) {
     const userFind = await this.prismaService.user.findUnique({
       where: { address: address.toLowerCase() },
