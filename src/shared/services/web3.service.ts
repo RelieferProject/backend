@@ -47,20 +47,6 @@ export class Web3Service {
       // maxFeePerGas: web3.utils.toWei('5', 'gwei'),
       nonce: await this.web3.eth.getTransactionCount(address),
       type: 0x2,
-
-      // gas: '0x5208', // = gasLimit
-      // maxFeePerGas: '0xb2d05e00',
-      // maxPriorityFeePerGas: '0xb2d05e00',
-      // input: '0x', // = data
-      // nonce: await this.web3.eth.getTransactionCount(address),
-      // to: to,
-      // data: '0x',
-      // value: web3.utils.toWei(amount.toString(), 'ether'),
-      // from: address,
-      // accessList: [],
-      // chainId: process.env.APP_CHAIN_ID,
-      // type: 0x2,
-      // "chainId": "0x5"
     };
 
     console.log(`tx`, tx);

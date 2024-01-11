@@ -17,20 +17,6 @@ Cloudinary.config({
 
 @Injectable()
 export class CloudinaryService {
-  async onModuleInit() {
-    // await this.$connect();
-  }
-
-  // async uploadFile(file: Express.Multer.File): Promise<string> {
-  //   console.log(file);
-  //   const result = await Cloudinary.uploader.upload(file, {
-  //     public_id: `${Date.now()}`,
-  //     folder: 'reliefer',
-  //   });
-  //   this.removeTempFile(file.path);
-  //   return result.secure_url;
-  // }
-
   async uploadFile(blob: Buffer): Promise<any> {
     return new Promise((resolve, reject) => {
       Cloudinary.uploader
